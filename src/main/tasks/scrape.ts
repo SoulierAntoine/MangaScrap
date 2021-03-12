@@ -1,7 +1,7 @@
 'use strict';
 
 import {Type} from "../models/meta";
-import Download from '../models/download';
+import Download from '../models/core/download';
 
 const
 	puppeteer = require('puppeteer');

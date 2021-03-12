@@ -1,4 +1,4 @@
-import {Type} from './meta';
+import {Type} from '../meta';
 
 export default class Download {
 

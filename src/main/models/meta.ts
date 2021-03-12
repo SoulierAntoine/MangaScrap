@@ -10,4 +10,3 @@ export enum Type {
 	Title,
 	Image
 }
-
