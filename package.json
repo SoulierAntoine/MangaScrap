@@ -1,0 +1,25 @@
+{
+  "name": "manga-scrap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "keywords": [],
+  "author": "altan",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^26.0.20",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "puppeteer": "^8.0.0"
+  },
+  "scripts": {
+    "start": "tsc && cross-env node built/index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.2.3"
+  }
+}
