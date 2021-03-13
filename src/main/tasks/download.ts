@@ -4,7 +4,7 @@ const
 
 import Node from '../../main/models/node';
 
-export const download = async (url: string, destination: string): Promise<Node> => {
+export const download = async (url: string, destination: string) => {
 	const file = fs.createWriteStream(destination);
 
 	await http
@@ -18,5 +18,5 @@ export const download = async (url: string, destination: string): Promise<Node> 
 		})
 		.end();
 
-	return Promise.resolve(new Node(1, -1, [], 1));
+	// return Promise.resolve(new Node(1, -1, [], 1));
 };

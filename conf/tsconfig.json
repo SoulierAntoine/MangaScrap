@@ -1,0 +1,14 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "../build/dist",
+		"experimentalDecorators": true
+	},
+	"include": [
+		"../src/main/*"
+	],
+	"exclude": [
+		"../node_modules",
+		"../src/test/**/*"
+	]
+}

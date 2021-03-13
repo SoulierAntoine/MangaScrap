@@ -1,14 +1,20 @@
 [
 	{
-		"name": "Manga Fox",
-		"url": "http://fanfox.net/manga/"
+		"name": "mangafox",
+		"label": "Manga Fox",
+		"url": "http://fanfox.net/manga/",
+		"scraper": "MangafoxScraper"
 	},
 	{
-		"name": "Lirescan",
-		"url": "https://www.lirescan.me/"
+		"name": "lirescan",
+		"label": "LireScan",
+		"url": "https://www.lirescan.me/",
+		"scraper": "LireScanScraper"
 	},
 	{
-		"name": "Japscan",
-		"url": "https://www.japscan.se/manga/"
+		"name": "japscan",
+		"label": "JapScan",
+		"url": "https://www.japscan.se/manga/",
+		"scraper": "JapScanScraper"
 	}
 ]

@@ -1,5 +1,5 @@
 .idea
 node_modules
-built
+build
 package-lock.json
 *.js.map
