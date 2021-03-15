@@ -3,8 +3,7 @@
 import {Type} from "../models/meta";
 import Download from '../models/core/download';
 
-const
-	puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');
 
 
 /**

@@ -2,26 +2,40 @@
 
 import Source from './models/core/source';
 
-const sourcesFromConfig = require('./conf/sources.json');
+const main = async() => {
 
-// TODO: more thoroughly check params
-const args = process.argv.slice(2);
-if (args.length !== 2) {
-    console.error('Error in arguments. TODO: display usage...');
-    process.exit(1);
-}
+    const sourcesFromConfig = require('./conf/sources.json');
 
-const sourceRequested = args[0];
+    // TODO: more thoroughly check params
+    const args = process.argv.slice(2);
+    if (args.length !== 2) {
+        console.error('Error in arguments. TODO: display usage...');
+        process.exit(1);
+    }
 
-const sourceUsed = sourcesFromConfig
-    .map((source: any) => new Source(source.label, source.name, source.url, source.scraper))
-    .find((source: Source) => source.name === sourceRequested);
+    const sourceRequested = args[0];
 
-if (sourceUsed === undefined) {
-    console.error('Please use a source that exists in the source configuration file');
-    process.exit(1);
-}
+    const sourceUsed = sourcesFromConfig
+        .map((source: any) => new Source(source.label, source.name, source.url, source.scraper))
+        .find((source: Source) => source.name === sourceRequested);
 
-const mangaRequested = args[1];
-const test = sourceUsed.scraper.getManga(mangaRequested);
-console.log(test)
+    if (sourceUsed === undefined) {
+        console.error('Please use a source that exists in the source configuration file');
+        process.exit(1);
+    }
+
+    const mangaRequested = args[1];
+
+    const result = await sourceUsed.scraper.getManga(mangaRequested)
+    console.log('Result: ', result);
+    return 1;
+};
+
+main()
+    .then((res) => {
+        console.log('Exiting: ', res);
+    })
+    .catch((e) => {
+        console.error(e);
+        process.exit(-1);
+    });
