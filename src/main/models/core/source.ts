@@ -1,6 +1,9 @@
+'use strict';
+
 import SourceScraper from '../source-scraper';
 import DefaultScraper from "../scrapers/default-scraper";
 import JapScanScraper from "../scrapers/japscan-scraper";
+import MangafoxScraper from "../scrapers/japscan-scraper";
 
 
 export default class Source {
@@ -34,8 +37,8 @@ export default class Source {
 
     scraperSolver(scraperRequested: string): SourceScraper {
         switch (scraperRequested) {
-            // case 'MangafoxScraper':
-            //     return new MangafoxScraper(this.url);
+            case 'MangafoxScraper':
+                return new MangafoxScraper(this.url);
             case 'JapScanScraper':
                 return new JapScanScraper(this.url);
             // case 'LireScanScraper':

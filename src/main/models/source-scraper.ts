@@ -1,3 +1,5 @@
+'use strict';
+
 import UrlUtils from "../commons/utils/url-utils";
 
 export default abstract class SourceScraper {
@@ -7,27 +9,23 @@ export default abstract class SourceScraper {
         this.url = url;
     }
 
-    getMangaUrl(id: string): string {
-        return UrlUtils.url(this.url, id);
+    getMangaUrl(mangaId: string): string {
+        return UrlUtils.url(false, this.url, mangaId);
     }
 
-    getChapters() {
-        return Promise.resolve(null);
+    getChapters(mangaId: string): Promise<string[]> {
+        return Promise.resolve([]);
     }
 
-    getManga(id: string) {
-        return Promise.resolve(null);
+    getManga(mangaId: string): Promise<string> {
+        return Promise.resolve('');
     }
 
-    getPages() {
-        return Promise.resolve(null);
+    getPages(chapter: string): Promise<string[]> {
+        return Promise.resolve([]);
     }
 
     getVolumes() {
         return Promise.resolve(null);
     }
-    // abstract getManga(id: string): Promise<any>;
-    // abstract getVolumes():         Promise<any>;
-    // abstract getChapters():        Promise<any>;
-    // abstract getPages():           Promise<any>;
 }

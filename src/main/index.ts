@@ -6,6 +6,9 @@ const main = async() => {
 
     const sourcesFromConfig = require('./conf/sources.json');
 
+    // japscan one-punch-man
+    // mangafox onepunch_man
+
     // TODO: more thoroughly check params
     const args = process.argv.slice(2);
     if (args.length !== 2) {
@@ -26,14 +29,17 @@ const main = async() => {
 
     const mangaRequested = args[1];
 
-    const result = await sourceUsed.scraper.getManga(mangaRequested)
-    console.log('Result: ', result);
+    for await (const chapter of await sourceUsed.scraper.getChapters(mangaRequested)) {
+        const images = await sourceUsed.scraper.getPages(chapter);
+        console.log(images);
+    }
+
     return 1;
 };
 
 main()
     .then((res) => {
-        console.log('Exiting: ', res);
+        console.log('Exit code: ', res);
     })
     .catch((e) => {
         console.error(e);
