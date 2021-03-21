@@ -9,10 +9,10 @@ const main = async() => {
     // japscan one-punch-man
     // mangafox onepunch_man
 
-    // TODO: more thoroughly check params
+    // TODO: more thoroughly check params, and display usage
     const args = process.argv.slice(2);
     if (args.length !== 2) {
-        console.error('Error in arguments. TODO: display usage...');
+        console.error('Error in arguments.');
         process.exit(1);
     }
 
@@ -30,8 +30,9 @@ const main = async() => {
     const mangaRequested = args[1];
 
     for await (const chapter of await sourceUsed.scraper.getChapters(mangaRequested)) {
-        const images = await sourceUsed.scraper.getPages(chapter);
-        console.log(images);
+        // const images = await sourceUsed.scraper.getPages(chapter);
+        // console.log(images);
+        // console.log(chapter);
     }
 
     return 1;

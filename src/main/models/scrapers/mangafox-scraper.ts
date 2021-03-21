@@ -1,35 +1,34 @@
 'use strict';
 
-import SourceScraper from '../source-scraper';
-import UrlUtils from "../../commons/utils/url-utils";
+import SourceScraper from './source-scraper';
+import BrowserService from '../../services/browser-service';
+import {Page} from 'puppeteer';
 
 const puppeteer = require('puppeteer');
 
-export default class MangafoxScraper extends SourceScraper {
+export default class MangaFoxScraper extends SourceScraper {
+
+    private static readonly SELECTORS = {
+        chapter_list: '#chapterlist',
+        expand_btn: () => `${MangaFoxScraper.SELECTORS.chapter_list} a[onclick='javascript:showMore(this);']`,
+        all_chapters_link: () => `${MangaFoxScraper.SELECTORS.chapter_list} li a`
+    };
 
     constructor(url: string) {
         super(url);
     }
 
-    getManga(mangaId: string) {
-        return Promise.resolve(mangaId);
-    }
-
-    getMangaUrl(mangaId: string): string {
-        return UrlUtils.url(true, this.url, mangaId);
-    }
-
     async getChapters(mangaId: string): Promise<string[]> {
-        // TODO: have some config : if dev or test, set headless to false
-        const browser = await puppeteer.launch();
-
-        const page = await browser.newPage();
+        this.browserService = await BrowserService.getInstance();
+        const page = await this.browserService.getPage(0);
         const mangaUrl = this.getMangaUrl(mangaId);
+
         await page.goto(mangaUrl);
+        await this.expandChaptersList(page);
 
         const result = await page.evaluate(() => {
             const chapterLinks: string[] = [];
-            const elements = document.querySelectorAll('#chapters_list .chapters_list a');
+            const elements = document.querySelectorAll(MangaFoxScraper.SELECTORS.all_chapters_link());
 
             elements.forEach(element => {
                 const href = element.getAttribute('href');
@@ -39,36 +38,22 @@ export default class MangafoxScraper extends SourceScraper {
             return chapterLinks;
         });
 
-        // TODO: depending on the behavior and what tasks must be done,
-        //  we might need to create an abstract class to take care of common tasks
-        //  e.g closing the browser must be done automatically each time otherwise resources are not freed.
-        await browser.close();
+        await this.browserService.closePage(page);
+
         return result;
     }
 
-    async getPages(chapter: string): Promise<string[]> {
-        const browser = await puppeteer.launch();
-
-        const page = await browser.newPage();
-        const chapterUrl = UrlUtils.url(true, this. url, chapter);
-        await page.goto(chapterUrl);
-        const imageLinks: string[] = [];
-
-        // TODO: go next page
-        // TODO: setup image extractor
-        const result = await page.evaluate(() => {
-            const element = document.querySelector('#image');
-            const href = element.getAttribute('data-src');
-            if (href !== null) imageLinks.push(href);
-
-            return imageLinks;
-        });
-
-        await browser.close();
-        return result;
-    }
-
-    getVolumes() {
-        return Promise.resolve(null);
+    private async expandChaptersList(page: Page): Promise<void> {
+        let canExpand = true;
+        do {
+            try {
+                await Promise.all([
+                    page.waitForNavigation(),
+                    page.click(MangaFoxScraper.SELECTORS.expand_btn())
+                ]);
+            } catch (_) {
+                canExpand = false;
+            }
+        } while (canExpand)
     }
 }

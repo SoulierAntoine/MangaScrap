@@ -1,9 +1,11 @@
 'use strict';
 
-import UrlUtils from "../commons/utils/url-utils";
+import UrlUtils from "../../commons/utils/url-utils";
+import BrowserService from '../../services/browser-service';
 
 export default abstract class SourceScraper {
     url: string;
+    browserService: BrowserService|null = null;
 
     protected constructor(url: string) {
         this.url = url;

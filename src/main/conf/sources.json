@@ -3,7 +3,7 @@
 		"name": "mangafox",
 		"label": "Manga Fox",
 		"url": "http://fanfox.net/manga/",
-		"scraper": "MangafoxScraper"
+		"scraper": "MangaFoxScraper"
 	},
 	{
 		"name": "lirescan",
