@@ -4,6 +4,8 @@ import SourceScraper from '../scrapers/source-scraper';
 import DefaultScraper from '../scrapers/default-scraper';
 import JapScanScraper from '../scrapers/japscan-scraper';
 import MangaFoxScraper from '../scrapers/mangafox-scraper';
+import ImageLinkExtractor from "../extractors/image-link-extractor";
+import ImageNetworkExtractor from "../extractors/image-network-extractor";
 
 
 export default class Source {
@@ -37,10 +39,14 @@ export default class Source {
 
     scraperSolver(scraperRequested: string): SourceScraper {
         switch (scraperRequested) {
-            case 'MangaFoxScraper':
-                return new MangaFoxScraper(this.url);
-            case 'JapScanScraper':
-                return new JapScanScraper(this.url);
+            case 'MangaFoxScraper': {
+                const strategy = new ImageLinkExtractor();
+                return new MangaFoxScraper(this.url, strategy);
+            }
+            case 'JapScanScraper': {
+                const strategy = new ImageNetworkExtractor();
+                return new JapScanScraper(this.url, strategy);
+            }
             // case 'LireScanScraper':
             //     return new LireScanScraper(this.url);
             default:

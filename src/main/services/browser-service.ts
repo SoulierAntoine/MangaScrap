@@ -1,6 +1,7 @@
 'use strict';
 
 import {Browser, HTTPRequest, HTTPResponse, Page} from 'puppeteer';
+import UrlUtils from "../commons/utils/url-utils";
 
 const puppeteer = require('puppeteer');
 
@@ -27,6 +28,13 @@ export default class BrowserService {
 
 	private async init() {
 		// TODO: do config, e.g.: if dev or test, set headless to false
+		/* headless: false,
+			args: ['--start-maximized'],
+			defaultViewport: {
+				width: 1366,
+				height: 768
+			} */
+
 		this.browser = await puppeteer.launch();
 	}
 
@@ -51,9 +59,13 @@ export default class BrowserService {
 		await page.close();
 		const pages = await this.browser.pages();
 		if (pages.length === 0) {
-			await this.browser.close();
-			BrowserService.instance = null;
+			await this.close();
 		}
+	}
+
+	async close() {
+		await this.browser.close();
+		BrowserService.instance = null;
 	}
 
 	private async setPageInterceptors(page: Page) {
@@ -62,6 +74,7 @@ export default class BrowserService {
 
 		// Cannot provide methods name directly because context would be lost and 'this' would be undefined
 		page
+			.on('console', log => console.log(log.text()))
 			.on('request', (request) => this.onRequest(request))
 			.on('requestfinished', (request) => this.onRequestFinished(request))
 			.on('requestfailed', () => this.nextRequest());
@@ -80,10 +93,16 @@ export default class BrowserService {
 	private async onRequestFinished(request: HTTPRequest) {
 		const response: HTTPResponse|null = await request.response();
 		if (response !== null) {
-			console.log(`[${new Date().toISOString()}] ${request.url()} => ${response.status()} ${response.statusText()}`)
+			const responseCode = response.status() / 10;
+			const isResponseOK = responseCode !== 20 && responseCode !== 30;
+
+			if (UrlUtils.isRequestingImage(request.url()) && isResponseOK) {
+				console.log(`[${new Date().toISOString()}] ${request.url()} => ${response.status()} ${response.statusText()}`)
+			}
 		}
 		this.nextRequest();
 	}
+
 
 	/**
 	 * Continue the next request, or 'unpause'

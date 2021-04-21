@@ -1,7 +1,9 @@
 {
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
-		"outDir": "build/spec"
+		"outDir": "build/spec",
+		"downlevelIteration": true
+
 	},
 	"include": [
 		"../src/test/*"

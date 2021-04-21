@@ -13,12 +13,14 @@ export default class NodeUtils {
 		if (root.level === level && root.parent < 0)
 			return new Array(root);
 
-		const children = root.children;
-		for (const child of children) {
-			if (child.level === level) {
-				accumulator.push(child);
-			} else {
-				NodeUtils.getNodesAtLevel(child, level, accumulator);
+		const children: Node[] = root.children;
+		if (children !== undefined) {
+			for (const child of children) {
+				if (child.level === level) {
+					accumulator.push(child);
+				} else {
+					NodeUtils.getNodesAtLevel(child, level, accumulator);
+				}
 			}
 		}
 

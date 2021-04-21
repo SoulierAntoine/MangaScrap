@@ -17,7 +17,8 @@
     "postbuild": "copyfiles --soft --flat src/main/conf/* ./build/dist/conf",
     "start": "cross-env node build/dist/index.js",
     "run": "npm run build && npm run start",
-    "test": "jest"
+    "test": "jest --config conf/jest.config.js",
+    "test-url": "jest --config conf/jest.config.js --verbose \"--testNamePattern=^url utils \" --runTestsByPath D:/Works/MangaScrap/src/test/integration/url-utils.test.ts"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",

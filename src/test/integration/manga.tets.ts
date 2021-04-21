@@ -1,12 +1,7 @@
 'use strict';
 
-const NodeUtils = require('../../main/commons/utils/node-utils');
-import Node from '../../main/models/node';
-import {download} from '../../main/tasks/download';
-import {scrape} from '../../main/tasks/scrape';
-
 describe('manga', () => {
-	test('scrape', () => {
+	test('will scrape', () => {
 		/*
 		 * Check if we want to proceed by 'tasks':
 		 *   1) scrape
@@ -27,14 +22,10 @@ describe('manga', () => {
 		 *
 		 * The 'business' side has to come up with a way to get all the chapters from the page, depending on the source
 		 * The 'main_page', also business related, should be the page of the first chapter, first image
-		 *
-		 * We must distinct the element being downloaded and
-		 * the download itself
-		 * Aggregation : the element (child) being downloaded can exist independently of its parent, the download
 		 */
-		const downloads = scrape('onepunch_man', [1,2,3])
+		// const downloads = scrape('onepunch_man', [1,2,3])
 	});
-	test('download', async () => {
+	test('will download', async () => {
 		/*
 		 * {
 		 *     parent: null if root (type: manga)

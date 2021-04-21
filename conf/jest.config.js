@@ -3,7 +3,12 @@ module.exports = {
 	testEnvironment: 'node',
 	globals: {
 		'ts-jest': {
-			tsConfig: 'tsconfig.test.json'
+			tsConfig: './conf/tsconfig.test.json'
+		},
+		transform: {
+			'^.+\\.jsx?$': 'babel-jest',
+			'^.+\\.tsx?$': 'ts-jest',
 		}
-	}
+	},
+	rootDir: '../src'
 };

@@ -1,6 +1,7 @@
 'use strict';
 
 import Source from './models/core/source';
+import UrlUtils from "./commons/utils/url-utils";
 
 const main = async() => {
 
@@ -28,12 +29,24 @@ const main = async() => {
     }
 
     const mangaRequested = args[1];
+    // TODO: RetryStrategy
 
-    for await (const chapter of await sourceUsed.scraper.getChapters(mangaRequested)) {
-        // const images = await sourceUsed.scraper.getPages(chapter);
-        // console.log(images);
-        // console.log(chapter);
-    }
+
+    // TODO: check if we should manipulate URL object instead of strings,
+    //  if so, extends URL with the utilities of UrlUtils
+
+    // const chapters = await sourceUsed.scraper.getChapters(mangaRequested);
+    // const images = await sourceUsed.scraper.getPages(chapters[0]);
+    const images = await sourceUsed.scraper.getPages('/onepunch_man/v01/c001/1.html');
+    await sourceUsed.scraper.imageExtractorCtx.getImageFromUrl(UrlUtils.prependProtocol(images[0], 'https'), './test.png');
+
+    // const result = await sourceUsed.scraper.imageExtractorCtx.checkImage('./test.png');
+    // console.log('Image downloaded: ', result);
+
+    // for await (const chapter of await sourceUsed.scraper.getChapters(mangaRequested)) {
+    //     const images = await sourceUsed.scraper.getPages(chapter);
+    //     console.log(images);
+    // }
 
     return 1;
 };
